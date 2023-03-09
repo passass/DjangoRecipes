@@ -1,0 +1,86 @@
+#recipe_blocks {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 15px;
+}
+.picture_block {
+    cursor: pointer;
+    border: 2px solid #C7D0CC;
+    height: 100%; gap: 10px;
+    width: 256px;
+}
+.picture_block_item {
+    cursor: pointer;
+    color: blue;
+    margin: 0;
+    font-size: 18px;
+    word-break:break-all;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.picture_block_item_img {
+    cursor: pointer;
+    color: blue;
+    width: 256px;
+    height: 256px;
+}
+
+#recipe_deletebutton {
+    color: red;
+}
+
+
+.without_link_text {
+    cursor: pointer;
+    color: blue;
+}
+
+
+.div__ .div__user {
+border: 5px solid black; cursor: pointer;
+}
+
+/* page turner */
+
+.block {
+    height: 100px;
+    width: 100px;
+    border: 3px solid red;
+    margin-right: 30px;
+}
+
+.div__pagenum {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px; display: flex;
+    gap: 5px;
+}
+
+.div__pagenum .pagenum {
+    margin: 2px 0;
+}
+
+.div__pagenum buttontodate {
+border: 2px solid gray; 
+width: 1.55em;
+height: 1.5em;
+}
+
+.div__pagenum .lastdate {
+margin-left: 4px;
+}
+
+.div__pagenum .nextdate a, .div__ .div__pagenum .lastdate a {
+margin-left: 5px; 
+}
+
+.div__pagenum buttontodate a {
+color: black;
+position: relative;
+font-size: 28px;
+right: 2.5px;
+border-bottom: 0px;
+}

@@ -1,0 +1,26 @@
+{% extends "template/form.html" %}
+
+{% block inblock %}
+    <form method="post">
+        {% csrf_token %}
+        <h2><center>Регистрация</center></h2>
+        {% for x in form %}
+            <p>{{x}}</p>
+        {% endfor %}
+        {% if error %}
+            <ul>
+            {% for string in error %}
+                <li>
+                    {{string}}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <p>
+            <button type="submit">Подтвердить</button>
+        </p>
+        <p>
+            <a href="{% url 'login' %}">Авторизироваться</a>
+        </p>
+    </form>
+{% endblock %}

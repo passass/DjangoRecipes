@@ -1,0 +1,30 @@
+@import 'shared.css';
+
+.flexbox {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(30vh);
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+    padding: 8px 15px;
+}
+
+.div__ {
+    margin: 2em;
+    outline: 2px solid gray;
+}
+
+.div__form {
+    margin: 1.5em;
+}
+
+label {
+    position: relative;
+    bottom: 2px;
+}
+

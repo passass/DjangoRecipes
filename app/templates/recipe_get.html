@@ -1,0 +1,35 @@
+{% extends "template/recipes.html" %}
+{% load static %}
+{% block head %}
+    <meta charset="UTF-8">
+    <title>Главная Страница</title>
+    <link href="{% static 'css/template/form.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery.js' %}"></script>
+    {% endblock %}
+    {% block centertab %}
+    <div>
+        <img id="recipe_image" src="#" class="picture_block_item_img">
+        {% if request.user.is_authenticated and request.user == recipe_owner %}
+            {% csrf_token %}
+            <p><input type="file" id="recipe_image_upload" дс></p>
+            <p><input placeholder="Название" id="recipe_title"></p>
+            <p>
+                <select id="recipe_category">
+                    <option value="null">------</option>
+                </select>
+            </p>
+            <p><textarea placeholder="Описание" id="recipe_desc"></textarea></p>
+            <p><button id="recipe_savebutton">сохранить</button></p>
+            <p id="recipe_savebutton_complete"></p>
+            <p><button id="recipe_deletebutton">Удалить</button></p>
+        {% else %}
+            <p id="recipe_title"></p>
+            <p id="recipe_desc"></p>
+            <p id="recipe_category"></p>
+        {% endif %}
+        <p id="recipe_visits"></p>
+        <p id="recipe_owner"></p>
+        
+    </div>
+    <script src="{% static 'js/recipe_get.js' %}"></script>
+    {% endblock %}

@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <link href="{% static 'css/template/form.css' %}" rel="stylesheet">
+    <link href="{% static 'css/template/main.css' %}" rel="stylesheet"> 
+    <link href="{% static 'css/picture_all.css' %}" rel="stylesheet">
+    {% block head %} {% endblock %}
+</head>
+<body>
+    <div class="tabs__uptab">
+        <div class="tabs__uptab_flexbox">
+        {% if request.user.is_authenticated %}
+            <a class="tabs__uptab_link" href="{% url 'logout' %}">
+                Выйти
+            </a>
+            <a class="tabs__uptab_link" href="{% url 'user_profile' request.user.pk %}"> 
+                {{ request.user.username }}
+            </a>
+        {% else %}
+            <a class="tabs__uptab_link" href="{% url 'login' %}">
+                Войти
+            </a>
+            <a class="tabs__uptab_link" href="{% url 'register' %}"> 
+                Регистрация
+            </a>
+        {% endif %}
+        </div>
+    </div>
+    <div class="tabs_centertab"> 
+        {% block centertab %} {% endblock %}
+    </div>
+    {% block body %} {% endblock %}
+</body>
+</html>

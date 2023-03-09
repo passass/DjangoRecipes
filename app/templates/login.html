@@ -1,0 +1,42 @@
+{% extends "template/form.html" %}
+
+{% block inblock %}
+    <form method="post">
+        {% csrf_token %}
+        <h2><center>Авторизация</center></h2>
+        <h2>{{error}}</h2>
+        {% if error %} 
+            <h2>
+                asd{{error}}
+            </h2>
+        {% endif %} 
+        
+        <p><tr>
+            <td>
+              <input type="text" name="username" class="form-input" placeholder="Логин" maxlength="150" required id="id_username">
+            </td>
+          </tr></p>
+          <p><tr>
+            <td>
+              <input type="password" name="password" class="form-input" placeholder="Пароль" required id="id_password">
+            </td>
+          </tr></p>
+          <p><tr>
+            <td>
+              <input type="checkbox" name="remember_me" id="id_remember_me">
+              <label for="remember_me">Запомнить</label>
+            </td>
+          </tr></p>
+        <p>
+            <button type="submit">Подтвердить</button>
+        </p>
+        {% if form.errors %}
+          {% for x in form.errors.values %}
+            {{ x }}
+          {% endfor %}
+        {% endif %}
+        <p>
+            <a href="{% url 'register' %}">Регистрация</a>
+        </p>
+    </form>
+{% endblock %}

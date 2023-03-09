@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% if not title %}
+            Главная Страница
+        {% else %}
+            {{title}}
+        {% endif %}
+    </title>
+    <link href="{% static 'css/template/main.css' %}" rel="stylesheet">
+     <script src="{% static 'js/jquery.js' %}"></script> 
+    {% block styles %} {% endblock %}
+</head>
+<body>
+    {% block tabs %}
+    <div class="tabs__">
+        <div class="tabs__uptab">
+            <div class="tabs__uptab__content">
+                <div class="tabs__uptab__content__logo">
+                    <a href="{% url 'home' %}">
+                        Todo
+                    </a>
+                </div>
+                <div class="line_grid_layout">
+                    <div>
+                        <a href="{% url 'about' %}">
+                            <h2>О нас</h2>
+                        </a>
+                    </div>
+                    {% if request.user.is_authenticated %}
+                        <div>
+                            <a href="{% url 'todos' %}">
+                                <h2>Список дел</h2>
+                            </a>
+                        </div>
+                        <div>
+                            <a>
+                                <h2>{{request.user.username}}</h2>
+                            </a>
+                        </div>
+                        <div last>
+                            <a href="{% url 'logout' %}">
+                                <h2>Выйти</h2>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div>
+                            <a href="{% url 'login' %}">
+                                <h2>Авторизироваться</h2>
+                            </a>
+                        </div>
+                        <div last>
+                            <a href="{% url 'register' %}">
+                                <h2>Зарегистрироваться</h2>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if not hidecentertab %}
+        <div class="tabs__centertab">
+            {% block inblock %}
+            {% endblock %}
+        </div>
+        {% endif %}
+    </div>
+    {% endblock %}
+    {% block content %} {% endblock %}
+</body>
+</html>

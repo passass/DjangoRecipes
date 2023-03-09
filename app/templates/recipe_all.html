@@ -1,0 +1,77 @@
+{% extends "template/recipes.html" %}
+{% load static %}
+{% block head %}
+    <title>Рецепты</title>
+    <link href="{% static 'css/template/form.css' %}" rel="stylesheet">
+    <link href="{% static 'css/picture_all.css' %}" rel="stylesheet">
+    <input id="curpage" type="hidden" value="{{ curpage }}"></input>
+    <input id="maxpages" type="hidden" value="{{ maxpages }}"></input>
+{% endblock %}
+{% block centertab %}
+    <center>
+        <input placeholder="поиск" id="recipe_search_input"><button id="recipe_search_button">поиск</button>
+    </center>
+
+    {% if request.user.is_authenticated %}
+        <input id="currentuser_username" type="hidden" value="{{ request.user.username }}"></input>
+        <a href="{% url 'recipe_upload' %}">Опубликовать</a>
+    {% endif %}
+    
+    <div>
+        <p>сортировка по:</p>
+        <select id="recipe_order_by">
+            <option value="visits">Посещениям</option>
+            <option value="title">Названию</option>
+            <option value="new">Свежести</option>
+        </select>
+    </div>
+
+    <div>
+        <p>Категория:</p>
+        <select id="recipe_order_by_categories">
+            <option value="null">------</option>
+        </select>
+    </div>
+
+    <br>
+    <div class="div__pagenum">
+        {% if curpage != 1 %}
+            <buttontodate>
+                <a name="lastpage" class="lastdate" href="">
+                    ←
+                </a>
+            </buttontodate>
+        {% endif %}
+        <h2 class="pagenum">{{curpage}}</h2>
+        {% if maxpages != curpage %}
+            <buttontodate class="nextdate">
+                <a name="nextpage" class="nextdate" href="">
+                    →
+                </a>
+            </buttontodate>
+        {% endif %}
+    </div>
+
+    <br>
+    <div id="recipe_blocks"></div>
+    <br>
+    <div class="div__pagenum">
+        {% if curpage != 1 %}
+            <buttontodate>
+                <a name="lastpage" class="lastdate" href="">
+                    ←
+                </a>
+            </buttontodate>
+        {% endif %}
+        <h2 class="pagenum">{{curpage}}</h2>
+        {% if maxpages != curpage %}
+            <buttontodate class="nextdate">
+                <a name="nextpage" class="nextdate" href="">
+                    →
+                </a>
+            </buttontodate>
+        {% endif %}
+    </div>
+    <script src="{% static 'js/user_data.js' %}"></script>
+    <script src="{% static 'js/recipe_all.js' %}"></script>
+{% endblock %}

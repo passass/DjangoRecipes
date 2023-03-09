@@ -1,0 +1,24 @@
+{% extends "template/recipes.html" %}
+{% load static %}
+{% block head %}
+    <title>Главная Страница</title>
+{% endblock %}
+{% block centertab %}
+    <center>
+        <input placeholder="поиск" id="recipe_search_input"><button id="recipe_search_button">поиск</button>
+    </center>
+    {% if request.user.is_authenticated %}
+        <input id="currentuser_username" type="hidden" value="{{ request.user.username }}"></input>
+        <a href="{% url 'recipe_upload' %}">Опубликовать</a>
+    {% endif %}
+    
+    <div><h1>
+        Рекомендуем:
+    </div><h2>
+
+    <br>
+    <div id="recipe_blocks"></div>
+    <a href="{% url 'recipe_all' %}"><center>Больше</center></a>
+    <script src="{% static 'js/user_data.js' %}"></script>
+    <script src="{% static 'js/recipe_home.js' %}"></script>
+{% endblock %}

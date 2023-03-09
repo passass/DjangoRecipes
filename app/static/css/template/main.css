@@ -1,0 +1,65 @@
+@import 'shared.css';
+
+a {
+    text-decoration: none;
+}
+
+.tabs__ {
+    width: 100%; min-width: 700px;
+}
+
+.tabs__uptab {
+    background-color: greenyellow; padding: .8em;
+    border-bottom: 6px solid rgb(200, 200, 200);
+    height: 25px;
+}
+
+.tabs__uptab_link {
+    font-size: 21px;
+}
+
+.tabs__uptab_flexbox {
+    float: right;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    height: 100%;
+    gap: 10px;
+}
+
+.tabs__uptab_flexbox_child {
+    width: 80%;
+}
+
+.tabs_centertab {
+    margin-left: auto;
+    margin-right: auto;
+    width: 820px
+}
+
+/*.tabs__uptab__content__logo {
+    outline: 2px solid gray; position: absolute;
+    font-size: 48px; cursor: pointer;
+}
+
+.tabs__centertab {
+    border-collapse: collapse; box-sizing: border-box;
+    background-color: white;
+    outline: 6px solid rgb(200, 200, 200);
+    margin: 19.2px 5vw;
+    min-height: 50em;
+}
+
+.line_grid_layout {
+    grid-template-columns: repeat(4, 1fr);
+    display: inline-grid;
+    float: right;
+}
+
+.line_grid_layout div a, .line_grid_layout div a h2 {
+    float: right;
+}
+
+.line_grid_layout div:not([last]) {
+    margin-right: 2em;
+}*/

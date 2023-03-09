@@ -1,0 +1,38 @@
+{% extends "template/recipes.html" %}
+{% load static %}
+{% block head %}
+    <meta charset="UTF-8">
+    <title>Главная Страница</title>
+    <link href="{% static 'css/template/form.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery.js' %}"></script>
+{% endblock %}
+{% block centertab %}
+    {% if request.user.is_authenticated %}
+
+    <p>
+        {% csrf_token %}
+        <form method="POST" enctype="multipart/form-data" style="border: 3px solid gray;">
+            
+            <p>
+            <input type="file" name="image" id="recipe_image">
+            </p>
+            <p>
+                <input name="title" id="recipe_title">
+            </p>
+            <p>
+                <textarea name="desc" id="recipe_desc"></textarea>
+            </p>
+            <p>
+            <button type="button" id="recipe_createbutton">Отправить</button>
+            <div id="error_text">
+            </div>
+        </form>
+    </p>
+        <script src="{% static 'js/recipe_upload.js' %}"></script>
+    {% else %}
+        <script>
+            window.location.replace(`/recipe/`);
+                document.location.href=`/recipe/`;
+        </script>
+    {% endif %}
+{% endblock %}
