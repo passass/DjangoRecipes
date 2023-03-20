@@ -21,7 +21,7 @@ def user_view(request, id):
         user = User.objects.get(pk=id)
     except MyModel.DoesNotExist:
         pass
-    return render(request, 'user.html', {
+    return render(request, 'user_profile.html', {
         'user': user,
     })
 

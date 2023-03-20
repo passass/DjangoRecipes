@@ -53,15 +53,24 @@ class RecipeViewSet(viewsets.ModelViewSet):
             'title': request.POST.get('title', 'Name'),
             'desc': request.POST.get('desc', 'description'),
         }
+        category = request.POST.get('category')
+        if category:
+            try:
+                category_obj = Category(pk=int(category))
+                data_json['category'] = int(category)
+                print(data_json['category'], category_obj)
+            except Exception:
+                pass
         serializer = RecipeSerializer(data=data_json)
-        serializer.owner = request.user
         serializer.is_valid(raise_exception=True)
+
         serializer.save()
 
         image = serializer.validated_data['image']
         if image and is_image(image.name):
             recipe = Recipe(title=data_json['title'], desc=data_json['desc'])
             recipe.owner = request.user
+            recipe.category = serializer.validated_data['category']
             recipe.image.save(image.name, image)
             recipe.save()
             return JsonResponse({'status': status.HTTP_200_OK})
@@ -77,10 +86,16 @@ class RecipeViewSet(viewsets.ModelViewSet):
         
         by_category = request.GET.get("category")
         if by_category:
-            print(f'{by_category=}')
             try:
                 query_set = query_set.filter(category=Category(int(by_category)))
             except ValueError:
+                pass
+
+        from_user = request.GET.get("fromuser")
+        if from_user:
+            try:
+                query_set = query_set.filter(owner=User(int(from_user)))
+            except Exception:
                 pass
 
         order_by = request.GET.get("order-by")

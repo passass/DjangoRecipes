@@ -5,6 +5,7 @@
     <title>Главная Страница</title>
     <link href="{% static 'css/template/form.css' %}" rel="stylesheet">
     <script src="{% static 'js/jquery.js' %}"></script>
+    <input id="currentuser_username" type="hidden" value="{{ request.user.username }}"></input>
     {% endblock %}
     {% block centertab %}
     <div>

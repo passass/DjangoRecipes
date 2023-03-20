@@ -73,14 +73,15 @@ $.ajax({
             } else {
                 recipe_title.textContent = `Название: ${data['title']}`;
                 recipe_desc.textContent = `Описание: ${data['desc']}`;
-
+                let userid = data['owner']
                 $.ajax({
-                    url: `/api/v1/user/${data['owner']}`,
+                    url: `/api/v1/user/${userid}`,
                     type: 'GET',
                     success: (result) => {
                         let data = result['content'];
                         if (result["status"] == 200) {
-                            recipe_owner.textContent = `Автор: ${data['name']}`
+                            recipe_owner.innerHTML = `Автор: <a id='recipe_owner_link'>${data['name']}</a>`
+                            $('#recipe_owner_link')[0].href = `/user/${userid}`
                             done.data = true
 
                             checkIfAllReady()

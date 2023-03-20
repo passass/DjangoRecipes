@@ -12,13 +12,23 @@ a {
     background-color: greenyellow; padding: .8em;
     border-bottom: 6px solid rgb(200, 200, 200);
     height: 25px;
+    min-width: 630px;
 }
 
 .tabs__uptab_link {
     font-size: 21px;
 }
 
-.tabs__uptab_flexbox {
+.tabs__uptab_main_flexbox {
+    float: left;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    height: 100%;
+    gap: 10px;
+}
+
+.tabs__uptab_user_flexbox {
     float: right;
     display: flex;
     align-items: flex-start;

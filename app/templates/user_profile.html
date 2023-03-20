@@ -1,0 +1,20 @@
+{% extends "template/recipes.html" %}
+{% load static %}
+{% block head %}
+    <title>Рецепты</title>
+    <link href="{% static 'css/template/form.css' %}" rel="stylesheet">
+    <link href="{% static 'css/picture_all.css' %}" rel="stylesheet">
+    <input id="curpage" type="hidden" value="{{ curpage }}"></input>
+    <input id="maxpages" type="hidden" value="{{ maxpages }}"></input>
+{% endblock %}
+{% block centertab %}
+    
+    <div>
+        <p>
+            Имя: {{user.username}}
+        </p>
+        <a href="{% url 'recipe_all' %}?fromuser={{user.pk}}">
+            Его публикации
+        </a>
+    </div>
+{% endblock %}

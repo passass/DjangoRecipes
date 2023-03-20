@@ -11,22 +11,29 @@
 
     <p>
         {% csrf_token %}
-        <form method="POST" enctype="multipart/form-data" style="border: 3px solid gray;">
+        <div id="recipe_uploadblock" style="border: 3px solid gray;">
             
             <p>
             <input type="file" name="image" id="recipe_image">
             </p>
             <p>
-                <input name="title" id="recipe_title">
+                <input name="title" id="recipe_title" placeholder="Название">
             </p>
             <p>
-                <textarea name="desc" id="recipe_desc"></textarea>
+                <p>Категория:</p>
+                <select id="recipe_category">
+                    <option value="null">------</option>
+                </select>
+            </p>
+            <p>
+                <textarea name="desc" id="recipe_desc" placeholder="Описание"></textarea>
             </p>
             <p>
             <button type="button" id="recipe_createbutton">Отправить</button>
+
             <div id="error_text">
             </div>
-        </form>
+        </div>
     </p>
         <script src="{% static 'js/recipe_upload.js' %}"></script>
     {% else %}

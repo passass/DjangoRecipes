@@ -3,6 +3,43 @@ const recipe_image = document.getElementById("recipe_image");
 const recipe_title = document.getElementById("recipe_title");
 const recipe_desc = document.getElementById("recipe_desc");
 const error_text = document.getElementById("error_text");
+
+const recipe_category = $('#recipe_category')[0];
+const recipe_uploadblock = $('#recipe_uploadblock')[0];
+
+function hide(el) {
+    el.style.visibility = "hidden";
+}
+
+function show(el) {
+    el.style.visibility = "visible";
+}
+
+hide(recipe_uploadblock)
+
+if (recipe_category) {
+    $.ajax({
+        url: `/api/v1/recipe/categories`,
+        type: 'GET',
+        success: (result) => {
+            let categories = result['content']
+            if (recipe_category) {
+                categories.forEach((item, i) => {
+                    let category = document.createElement("option");
+                    category.textContent = item;
+                    category.value = i + 1;
+                
+                    recipe_category.appendChild(category);
+                })
+            }
+            show(recipe_uploadblock)
+        },
+        error: () => {
+            show(recipe_uploadblock)
+        },
+    })
+}
+
 var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]');
 csrftoken = csrftoken ? csrftoken.value : null;
 
@@ -40,6 +77,7 @@ recipe_createbutton.onclick = () => {
 
     formData.append("title", recipe_title.value);
     formData.append("desc", recipe_desc.value);
+    formData.append('category', recipe_category.value);
     formData.append('image', recipe_image.files[0]);
 
     $.ajax({

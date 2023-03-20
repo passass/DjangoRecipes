@@ -6,16 +6,13 @@
     <link href="{% static 'css/picture_all.css' %}" rel="stylesheet">
     <input id="curpage" type="hidden" value="{{ curpage }}"></input>
     <input id="maxpages" type="hidden" value="{{ maxpages }}"></input>
+    <input id="currentuser_username" type="hidden" value="{{ request.user.username }}"></input>
+    
 {% endblock %}
 {% block centertab %}
     <center>
         <input placeholder="поиск" id="recipe_search_input"><button id="recipe_search_button">поиск</button>
     </center>
-
-    {% if request.user.is_authenticated %}
-        <input id="currentuser_username" type="hidden" value="{{ request.user.username }}"></input>
-        <a href="{% url 'recipe_upload' %}">Опубликовать</a>
-    {% endif %}
     
     <div>
         <p>сортировка по:</p>
@@ -73,5 +70,6 @@
         {% endif %}
     </div>
     <script src="{% static 'js/user_data.js' %}"></script>
+    <script src="{% static 'js/recipe_getter.js' %}"></script>
     <script src="{% static 'js/recipe_all.js' %}"></script>
 {% endblock %}
