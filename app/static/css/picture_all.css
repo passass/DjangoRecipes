@@ -39,6 +39,21 @@
 }
 
 
+#recipe_aboutrecipe {
+    font-size: 22px;
+}
+
+.recipe_text_style1 {
+    font-family : inherit;
+    font-size: 22px;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden; 
+    hyphens: manual;
+}
+
+
 .div__ .div__user {
 border: 5px solid black; cursor: pointer;
 }

@@ -52,7 +52,6 @@ $.ajax({
     type: 'GET',
     success: (result) => {
         let data = result['content'];
-        console.log(data)
         if (result["status"] == 200) {
             recipe_image.src = data['image'];
             recipe_visits.textContent = `Уникальных посетителей: ${data['visits']}`
@@ -72,7 +71,14 @@ $.ajax({
                 checkIfAllReady()
             } else {
                 recipe_title.textContent = `Название: ${data['title']}`;
-                recipe_desc.textContent = `Описание: ${data['desc']}`;
+                let description = data['desc'].replace(/(\r\n|\n|\r)/gm, "<br>");
+                recipe_desc.innerHTML = `
+                <p>
+                Описание:
+                <br>
+                ${description}
+                </p>
+                `;
                 let userid = data['owner']
                 $.ajax({
                     url: `/api/v1/user/${userid}`,

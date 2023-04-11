@@ -70,7 +70,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if image and is_image(image.name):
             recipe = Recipe(title=data_json['title'], desc=data_json['desc'])
             recipe.owner = request.user
-            recipe.category = serializer.validated_data['category']
+            try:
+                recipe.category = serializer.validated_data['category']
+            except Exception:
+                pass
             recipe.image.save(image.name, image)
             recipe.save()
             return JsonResponse({'status': status.HTTP_200_OK})

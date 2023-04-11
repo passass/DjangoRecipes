@@ -44,7 +44,14 @@ a {
 .tabs_centertab {
     margin-left: auto;
     margin-right: auto;
-    width: 820px
+    width: 820px;
+    min-width: 656px;
+}
+
+@media screen and (max-width: 820px) {
+    .tabs_centertab {
+        width: 100%;
+    }
 }
 
 /*.tabs__uptab__content__logo {

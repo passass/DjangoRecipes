@@ -12,24 +12,35 @@
         <img id="recipe_image" src="#" class="picture_block_item_img">
         {% if request.user.is_authenticated and request.user == recipe_owner %}
             {% csrf_token %}
-            <p><input type="file" id="recipe_image_upload" дс></p>
-            <p><input placeholder="Название" id="recipe_title"></p>
+            <p><input type="file" id="recipe_image_upload" class="recipe_text_style1"></p>
+            <p><input placeholder="Название" id="recipe_title" class="recipe_text_style1"></p>
             <p>
-                <select id="recipe_category">
+                <select id="recipe_category" class="recipe_text_style1">
                     <option value="null">------</option>
                 </select>
             </p>
-            <p><textarea placeholder="Описание" id="recipe_desc"></textarea></p>
+            <p><textarea placeholder="Описание" id="recipe_desc" class="recipe_text_style1"></textarea></p>
             <p><button id="recipe_savebutton">сохранить</button></p>
             <p id="recipe_savebutton_complete"></p>
             <p><button id="recipe_deletebutton">Удалить</button></p>
         {% else %}
-            <p id="recipe_title"></p>
-            <p id="recipe_desc"></p>
-            <p id="recipe_category"></p>
+            <p>
+                <div id="recipe_title" class="recipe_text_style1">
+                
+                </div>
+            </p>
+            <p>
+                <div id="recipe_desc" class="recipe_text_style1">
+                </div>
+            </p>
+            <p>
+                <div id="recipe_category" class="recipe_text_style1">
+                
+                </div>
+            </p>
         {% endif %}
-        <p id="recipe_visits"></p>
-        <p id="recipe_owner"></p>
+        <p id="recipe_visits" class="recipe_text_style1"></p>
+        <p id="recipe_owner" class="recipe_text_style1"></p>
         
     </div>
     <script src="{% static 'js/recipe_get.js' %}"></script>

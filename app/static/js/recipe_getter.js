@@ -113,7 +113,6 @@ let add_recipe_block = (content) => {
                         recipe_blocks_count++;
                         users[user_id] = data2['name'];
                         console.log(current_user);
-                        alert(`${current_user.name} == ${users[user_id]}`);
                         let text = `Автор: ${current_user.name == users[user_id] ? 'Вы' : users[user_id]}`;
                         $(`#recipe_owner_${recipe_id}`)[0].textContent = text;
                         recipe_blocks_wait_author[user_id].forEach((element) => {

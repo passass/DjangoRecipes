@@ -10,7 +10,7 @@ class Category(models.Model):
 class Recipe(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(default="Название", max_length=60)
-    desc = models.CharField(default="Описание", max_length=1500)
+    desc = models.TextField(default="Описание", max_length=1500)
     image = models.ImageField(upload_to="pictures/%Y/%M/%D", max_length=255)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)

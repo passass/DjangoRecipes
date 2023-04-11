@@ -1,2 +1,5 @@
 /venv
+recipes/__pycache__/
 venv.zip
+/media
+app/__pycache__/
