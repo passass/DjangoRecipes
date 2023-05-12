@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-$%-=cab3ul#vtsf(v*1)%+&)rt6gv9pss)1bl4ro6jgps@%sb%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
-    'app.apps.RecipesAppConfig'
+    'app.apps.RecipesAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +83,7 @@ WSGI_APPLICATION = 'recipes.wsgi.application'
 }'''
 
 DATABASES = {
+    
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
@@ -92,6 +93,13 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+''''default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }'''
+
+
 
 
 # Password validation

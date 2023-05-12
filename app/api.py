@@ -2,11 +2,11 @@ from importlib.metadata import requires
 from django.http import JsonResponse, HttpResponse, Http404
 from .models import Recipe, Category
 from rest_framework import viewsets, status
-from .serializers import RecipeSerializer
+from .serializers import *
 from django.shortcuts import get_object_or_404
 from .permissions import *
 from django.core.paginator import Paginator
-
+from rest_framework.permissions import IsAdminUser
 from .files import is_image
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
@@ -19,23 +19,41 @@ class UserApi(APIView):
         user = get_object_or_404(User, id=id)
         return JsonResponse({'status': status.HTTP_200_OK, 'content': {"name": user.username}})
 
+class CategoriesViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all() 
+    permission_classes = (IsAdminOrReadOnly,)
 
-class CategoriesApi(APIView):
-    def get(self, request):
+    serializer_class = CategoriesSerializer
+
+    def list(self, request):
         return JsonResponse({'status': status.HTTP_200_OK, 'content': [
-            row.name for row in Category.objects.all()
+            row.name for row in self.queryset
         ]})
+
+    def create(self, request):
+        name = request.POST.get('name')
+        if not name:
+            raise Http404
+        cat = Category(name=name)
+        cat.save()
+        return JsonResponse({'status': status.HTTP_200_OK})
+    
+    def delete(self, request):
+        id = request.POST.get('id')
+        if not id:
+            raise Http404
+        cat = get_object_or_404(Category, id=id)
+        cat.delete()
+        return JsonResponse({'status': status.HTTP_200_OK})
+        
+
+
 
 order_options = {
     "visits": "-visits", 
     "title": "title",
     "new": "-updated_at",
 }
-'''
-Быстрая настройка
-py manage.py shell
-import app.models as models
-'''
 
 class RecipeViewSet(viewsets.ModelViewSet):
     #permission_classes = (IsOwnerOrReadOnly, )
@@ -46,6 +64,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def create(self, request):
         if not request.user.is_authenticated:
             raise Http404
+        
+        print("XYYYY")
 
         data_json = {
             'image': request.FILES.get('image'),
@@ -58,11 +78,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
             try:
                 category_obj = Category(pk=int(category))
                 data_json['category'] = int(category)
-                print(data_json['category'], category_obj)
             except Exception:
                 pass
         serializer = RecipeSerializer(data=data_json)
-        serializer.is_valid(raise_exception=True)
+
+        serializer.is_valid()
 
         serializer.save()
 

@@ -26,14 +26,18 @@ urlpatterns = [
     path('recipe/<int:id>', recipe_get, name='recipe_get'),
     path('recipe/upload', recipe_upload, name='recipe_upload'),
 
+    path('admin', adminpanel, name='admin'),
+
+    path(api_preffix + 'recipe/categories', CategoriesViewSet.as_view({"get": "list"}), name='api_recipe_categories'),
+    path(api_preffix + 'recipe/categories/create', CategoriesViewSet.as_view({"post": "create"}), name='api_recipe_categories_create'),
+    path(api_preffix + 'recipe/categories/delete', CategoriesViewSet.as_view({"post": "delete"}), name='api_recipe_categories_delete'),
+
     path(api_preffix + 'recipe/create', RecipeViewSet.as_view({"post": "create"}), name='api_recipe_create'),
-    path(api_preffix + 'recipe/categories', CategoriesApi.as_view(), name='api_recipe_categories'),
     path(api_preffix + 'recipe/', RecipeViewSet.as_view({"get": "list"}), name='api_recipe_all'),
     path(api_preffix + 'recipe/<int:id>', RecipeViewSet.as_view({"get": "retrieve"}), name='api_recipe_get'),
     path(api_preffix + 'recipe/<int:id>/save', RecipeViewSet.as_view({"post": "update"}), name='api_recipe_update'),
     path(api_preffix + 'recipe/<int:id>/delete', RecipeViewSet.as_view({"post": "delete"}), name='api_recipe_delete'),
 
-    
     path(api_preffix + 'user/<int:id>', UserApi.as_view(), name='user_data'),
 
     re_path(r'^favicon\.ico$', favicon_view),

@@ -1,0 +1,27 @@
+{% extends "template/recipes.html" %}
+{% load static %}
+{% block head %}
+    <title>Рецепты</title>
+    <link href="{% static 'css/template/form.css' %}" rel="stylesheet">
+    <link href="{% static 'css/picture_all.css' %}" rel="stylesheet">
+{% endblock %}
+{% block centertab %}
+    {% csrf_token %}
+    <div id="adminpanel">
+        <div id="adminpanel_categories">
+            <h1>
+                Категории
+            </h1>
+
+            <p><input id="adminpanel_categories_name"></p>
+            <p><button type="button" id="adminpanel_categories_create">Создать</button></p>
+
+            <p>
+                <select id="adminpanel_categories_choosetodelete">
+                </select>
+            </p>
+            <p><button type="button" id="adminpanel_categories_delete">Удалить</button></p>
+        </div>
+    </div>
+    <script src="{% static 'js/adminpanel.js' %}"></script>
+{% endblock %}

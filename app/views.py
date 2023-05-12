@@ -15,6 +15,12 @@ from .models import *
 def index(request):
     return render(request, 'index.html')
 
+@login_required
+def adminpanel(request):
+    if request.user.is_superuser:
+        return render(request, 'adminpanel.html')
+    return redirect("index")
+
 def user_view(request, id):
     user = False
     try:
