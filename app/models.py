@@ -3,6 +3,20 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+def create_UserAdvanced(user):
+    user_advanced = UserAdvanced.objects.create(user=user)
+    user_advanced.save()
+    return user_advanced
+
+
+def get_UserAdvanced(user):
+    try:
+        user_advanced = user.useradvanced
+    except Exception:
+        user_advanced = create_UserAdvanced(user)
+    return user_advanced
+
+
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)

@@ -39,7 +39,7 @@ def recipe_all(request):
     return render(request, 'recipe_all.html', args)
 
 def recipe_get(request, id):
-    return render(request, 'recipe_get.html', context={"recipe_owner": Recipe.objects.get(id=id).owner})
+    return render(request, 'recipe_get.html', context={"recipe_owner": Recipe.objects.get(id=id).owner, "is_editor": not not request.GET.get("editor", False)})
 
 @login_required
 def recipe_upload(request):
@@ -61,10 +61,9 @@ def register(request):
                 user = User.objects.create_user(username=login,
                                                 email=email,
                                                 password=password)
-                user_advanced = UserAdvanced.objects.create(user=user)
-                user_advanced.save()
+                create_UserAdvanced(user)
                 auth.login(request, user)
-                return redirect('recipe_upload')
+                return redirect('index')
             args["error"] = ["Почта уже занята"]
         else:
             args['error'] = list(form.errors.values())[0]

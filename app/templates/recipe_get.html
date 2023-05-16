@@ -10,7 +10,8 @@
     {% block centertab %}
     <div>
         <img id="recipe_image" src="#" class="picture_block_item_img">
-        {% if request.user.is_authenticated and request.user == recipe_owner %}
+        {% if request.user.is_authenticated and request.user == recipe_owner or request.user.is_authenticated and request.user.is_superuser and is_editor %}
+            
             {% csrf_token %}
             <p><input type="file" id="recipe_image_upload" class="recipe_text_style1"></p>
             <p><input placeholder="Название" id="recipe_title" class="recipe_text_style1"></p>
@@ -24,6 +25,9 @@
             <p id="recipe_savebutton_complete"></p>
             <p><button id="recipe_deletebutton">Удалить</button></p>
         {% else %}
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+                <h1><a href="?editor=true"><button id="recipe_editor">Редактировать</button></a></h1>
+            {% endif %}
             <p>
                 <div id="recipe_title" class="recipe_text_style1">
                 

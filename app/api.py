@@ -17,7 +17,7 @@ from json import loads
 class UserApi(APIView):
     def get(self, request, id):
         user = get_object_or_404(User, id=id)
-        return JsonResponse({'status': status.HTTP_200_OK, 'content': {"name": user.username}})
+        return JsonResponse({'status': status.HTTP_200_OK, 'content': {"name": user.username, "is_superuser": user.is_superuser}})
 
 class CategoriesViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all() 
@@ -45,7 +45,6 @@ class CategoriesViewSet(viewsets.ModelViewSet):
         cat = get_object_or_404(Category, id=id)
         cat.delete()
         return JsonResponse({'status': status.HTTP_200_OK})
-        
 
 
 
@@ -56,16 +55,19 @@ order_options = {
 }
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    #permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsOwnerorIsAdminOrReadOnly, )
     queryset = Recipe.objects.all()
 
     serializer_class = RecipeSerializer
 
+    def get_object(self):
+        obj = get_object_or_404(self.get_queryset(), pk=self.kwargs.get("id"))
+        self.check_object_permissions(self.request, obj)
+        return obj
+
     def create(self, request):
         if not request.user.is_authenticated:
             raise Http404
-        
-        print("XYYYY")
 
         data_json = {
             'image': request.FILES.get('image'),
@@ -134,15 +136,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return JsonResponse({'status': status.HTTP_200_OK, 'content': RecipeSerializer(query_set, many=True).data})
 
     def retrieve(self, request, id):
-        recipe = get_object_or_404(Recipe, id=id)
+        recipe = self.get_object()
         analyze_visits(request, recipe)
         return JsonResponse({'status': status.HTTP_200_OK, 'content': RecipeSerializer(recipe).data})
 
     def update(self, request, id):
-        if not request.user.is_authenticated:
-            raise Http404
-
-        recipe = get_object_or_404(Recipe, id=id, owner=request.user)
+        recipe = self.get_object()
         try:
             recipe.title = request.POST['title']
             recipe.desc = request.POST['desc']
@@ -162,10 +161,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return JsonResponse({'status': status.HTTP_200_OK})
 
     def delete(self, request, id):
-        if not request.user.is_authenticated:
-            raise Http404
-
-        picture = get_object_or_404(Recipe, id=id, owner=request.user)
+        picture = self.get_object()
         picture.delete()
         return JsonResponse({'status': status.HTTP_200_OK})
     

@@ -44,7 +44,7 @@ $.ajax({
     }
 })
 
-const url = window.location.href.split("/");
+const url = window.location.pathname.split("/");
 const recipe_id = url[url.length - 1]
 
 $.ajax({
