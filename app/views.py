@@ -6,6 +6,7 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.files.images import ImageFile
+from django.shortcuts import get_object_or_404
 
 import os
 from .files import *
@@ -39,7 +40,7 @@ def recipe_all(request):
     return render(request, 'recipe_all.html', args)
 
 def recipe_get(request, id):
-    return render(request, 'recipe_get.html', context={"recipe_owner": Recipe.objects.get(id=id).owner, "is_editor": not not request.GET.get("editor", False)})
+    return render(request, 'recipe_get.html', context={"recipe_owner": get_object_or_404(Recipe, pk=id), "is_editor": not not request.GET.get("editor", False)})
 
 @login_required
 def recipe_upload(request):

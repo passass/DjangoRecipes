@@ -2,6 +2,7 @@ const recipe_createbutton = document.getElementById("recipe_createbutton");
 const recipe_image = document.getElementById("recipe_image");
 const recipe_title = document.getElementById("recipe_title");
 const recipe_desc = document.getElementById("recipe_desc");
+const recipe_cookinst = document.getElementById("recipe_cookinst");
 const error_text = document.getElementById("error_text");
 
 const recipe_category = $('#recipe_category')[0];
@@ -24,10 +25,10 @@ if (recipe_category) {
         success: (result) => {
             let categories = result['content']
             if (recipe_category) {
-                categories.forEach((item, i) => {
+                Object.entries(categories).forEach(([id, name]) => {
                     let category = document.createElement("option");
-                    category.textContent = item;
-                    category.value = i + 1;
+                    category.textContent = name;
+                    category.value = id;
                 
                     recipe_category.appendChild(category);
                 })
@@ -54,6 +55,9 @@ function check_for_errors() {
     if (recipe_desc.value == "") {
         errors['desc'] = "Необходимо описать рецепт"
     }
+    if (recipe_cookinst.value == "") {
+        errors['cookinst'] = "Необходимо написать инструкцию"
+    }
     let keys = Object.keys(errors)
     error_text.innerHTML = '';
     if (keys.length > 0) {
@@ -78,6 +82,7 @@ recipe_createbutton.onclick = () => {
     formData.append("title", recipe_title.value);
     formData.append("desc", recipe_desc.value);
     formData.append('category', recipe_category.value);
+    formData.append('cookinst', recipe_cookinst.value);
     formData.append('image', recipe_image.files[0]);
 
     $.ajax({

@@ -42,7 +42,7 @@ let proceed_if_compelete = () =>  {
                     if (categories != false) {
                         let selected_category = $(`#recipe_cat_selected_${recipeblock_id}`)[0].value;
                         if (selected_category != "null") {
-                            category_block.textContent = `Категория: ${categories[Number(selected_category) - 1]}`;
+                            category_block.textContent = `Категория: ${categories[Number(selected_category)]}`;
                         } else {
                             category_block.textContent = `Категория: не указана`;
                         }
@@ -53,10 +53,10 @@ let proceed_if_compelete = () =>  {
             }
 
             if (recipe_order_by_categories) {
-                categories.forEach((item, i) => {
+                Object.entries(categories).forEach(([id, name]) => {
                     let category = document.createElement("option");
-                    category.textContent = item;
-                    category.value = i + 1;
+                    category.textContent = name;
+                    category.value = id;
                 
                     recipe_order_by_categories.appendChild(category);
                 })
@@ -112,7 +112,6 @@ let add_recipe_block = (content) => {
                     if (result["status"] == 200) {
                         recipe_blocks_count++;
                         users[user_id] = data2['name'];
-                        console.log(current_user);
                         let text = `Автор: ${current_user.name == users[user_id] ? 'Вы' : users[user_id]}`;
                         $(`#recipe_owner_${recipe_id}`)[0].textContent = text;
                         recipe_blocks_wait_author[user_id].forEach((element) => {

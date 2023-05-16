@@ -8,14 +8,15 @@ function show(el) {
 
 var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]');
 csrftoken = csrftoken ? csrftoken.value : null;
-const recipe_image = document.getElementById("recipe_image")
-const recipe_title = document.getElementById("recipe_title")
-const recipe_desc = document.getElementById("recipe_desc")
-const recipe_owner = document.getElementById("recipe_owner")
-const recipe_category = document.getElementById("recipe_category")
-const recipe_deletebutton = document.getElementById("recipe_deletebutton")
-const recipe_visits = document.getElementById("recipe_visits")
-var categories = []
+const recipe_image = document.getElementById("recipe_image");
+const recipe_title = document.getElementById("recipe_title");
+const recipe_desc = document.getElementById("recipe_desc");
+const recipe_cookinst = document.getElementById("recipe_cookinst");
+const recipe_owner = document.getElementById("recipe_owner");
+const recipe_category = document.getElementById("recipe_category");
+const recipe_deletebutton = document.getElementById("recipe_deletebutton");
+const recipe_visits = document.getElementById("recipe_visits");
+var categories = [];
 
 
 const is_owner = recipe_title.tagName == "INPUT"
@@ -63,6 +64,7 @@ $.ajax({
 
                 recipe_title.value = data['title'];
                 recipe_desc.value = data['desc'];
+                recipe_cookinst.value = data['cookinst'];
 
                 recipe_owner.textContent = `Автор: Вы`;
 
@@ -72,11 +74,19 @@ $.ajax({
             } else {
                 recipe_title.textContent = `Название: ${data['title']}`;
                 let description = data['desc'].replace(/(\r\n|\n|\r)/gm, "<br>");
+                let cookinstruction = data['cookinst'].replace(/(\r\n|\n|\r)/gm, "<br>");
                 recipe_desc.innerHTML = `
                 <p>
                 Описание:
                 <br>
                 ${description}
+                </p>
+                `;
+                recipe_cookinst.innerHTML = `
+                <p>
+                Инструкция приготовления:
+                <br>
+                ${cookinstruction}
                 </p>
                 `;
                 let userid = data['owner']
@@ -108,18 +118,18 @@ $.ajax({
 
 function checkIfAllReady() {
     if (Object.values(done).every(elem => elem)) {
-        if (categories.length > 0) {
+        if (Object.keys(categories).length > 0) {
             if (is_owner) {
-                categories.forEach((item, i) => {
+                Object.entries(categories).forEach(([id, name]) => {
                     let el = document.createElement("option")
-                    el.value = i + 1
-                    el.textContent = item
+                    el.value = id
+                    el.textContent = name
                     recipe_category.appendChild(el)
                 })
-                recipe_category.selectedIndex = choiced_category ? choiced_category : 0
+                recipe_category.selectedIndex = choiced_category ? (Object.keys(categories).indexOf(choiced_category+"") + 1) : 0
             } else {
                 if (choiced_category != null) {
-                    recipe_category.textContent = `Категория: ${categories[choiced_category - 1]}`
+                    recipe_category.textContent = `Категория: ${categories[choiced_category]}`
                 } else {
                     recipe_category.textContent = `Категория: не указана`
                 }
@@ -191,6 +201,7 @@ if (recipe_savebutton) {
         }
         formData.append("title", recipe_title.value);
         formData.append("desc", recipe_desc.value);
+        formData.append("cookinst", recipe_cookinst.value);
         formData.append("category", recipe_category.value);
         formData.append('file', $('#recipe_image_upload')[0].files[0]);
 

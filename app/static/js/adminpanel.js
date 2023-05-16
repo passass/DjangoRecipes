@@ -30,9 +30,10 @@ $.ajax({
     url: `/api/v1/recipe/categories`,
     type: 'GET',
     success: (result) => {
-        result['content'].forEach((item, i) => {
+        Object.entries(result['content']).forEach(([id, name]) => {
             let el = document.createElement("option");
-            el.textContent = item;
+            el.textContent = name;
+            el.value = id;
             adminpanel_categories_choosetodelete.appendChild(el);
         })
     },
@@ -40,7 +41,7 @@ $.ajax({
 
 $("#adminpanel_categories_delete")[0].onclick = () => {
     var formData = new FormData();
-    formData.append("id", adminpanel_categories_choosetodelete.selectedIndex + 1);
+    formData.append("id", adminpanel_categories_choosetodelete.value);
 
     $.ajax({
         headers: {'X-CSRFToken': csrftoken},

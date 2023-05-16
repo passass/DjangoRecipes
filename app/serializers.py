@@ -13,6 +13,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         instance.id = validated_data.get('id', instance.id)
         instance.title = validated_data.get('title', instance.title)
         instance.desc = validated_data.get('desc', instance.desc)
+        instance.cookinst = validated_data.get('desc', instance.desc)
         instance.image = validated_data.get('image', instance.image)
         instance.owner = validated_data.get('owner', instance.owner)
         instance.category = validated_data.get('category', instance.category)

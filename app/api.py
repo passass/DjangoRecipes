@@ -25,10 +25,15 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 
     serializer_class = CategoriesSerializer
 
+    def get_object(self, id=None):
+        obj = get_object_or_404(self.get_queryset(), pk=id or self.request.POST.get('id'))
+        self.check_object_permissions(self.request, obj)
+        return obj
+
     def list(self, request):
-        return JsonResponse({'status': status.HTTP_200_OK, 'content': [
-            row.name for row in self.queryset
-        ]})
+        return JsonResponse({'status': status.HTTP_200_OK, 'content': {
+            row.id: row.name for row in Category.objects.all()
+        }})
 
     def create(self, request):
         name = request.POST.get('name')
@@ -39,10 +44,7 @@ class CategoriesViewSet(viewsets.ModelViewSet):
         return JsonResponse({'status': status.HTTP_200_OK})
     
     def delete(self, request):
-        id = request.POST.get('id')
-        if not id:
-            raise Http404
-        cat = get_object_or_404(Category, id=id)
+        cat = self.get_object(request.POST.get('id'))
         cat.delete()
         return JsonResponse({'status': status.HTTP_200_OK})
 
@@ -72,8 +74,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
         data_json = {
             'image': request.FILES.get('image'),
             'owner': request.user.pk,
-            'title': request.POST.get('title', 'Name'),
-            'desc': request.POST.get('desc', 'description'),
+            'title': request.POST.get('title', 'Имя'),
+            'cookinst': request.POST.get('title', 'Инструкция'),
+            'desc': request.POST.get('desc', 'Описание'),
         }
         category = request.POST.get('category')
         if category:
@@ -90,7 +93,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         image = serializer.validated_data['image']
         if image and is_image(image.name):
-            recipe = Recipe(title=data_json['title'], desc=data_json['desc'])
+            recipe = Recipe(
+                title=serializer.validated_data['title'], desc=serializer.validated_data['desc'], cookinst=serializer.validated_data['cookinst']
+                )
             recipe.owner = request.user
             try:
                 recipe.category = serializer.validated_data['category']
@@ -104,7 +109,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         search_string = request.GET.get("search")
-        query_set = self.queryset
+        query_set = self.get_queryset()
 
         if search_string:
             query_set = query_set.filter(title__icontains=search_string)
@@ -145,6 +150,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         try:
             recipe.title = request.POST['title']
             recipe.desc = request.POST['desc']
+            recipe.cookinst = request.POST['cookinst']
             try:
                 recipe.category = Category(int(request.POST['category']))
             except ValueError:
